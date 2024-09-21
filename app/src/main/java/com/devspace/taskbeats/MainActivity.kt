@@ -11,6 +11,9 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
+    private var categories = listOf<CategoryUiData>()
+    private var tasks = listOf<TaskUiData>()
+
     private val db by lazy {
         Room.databaseBuilder(
             applicationContext,
@@ -40,23 +43,31 @@ class MainActivity : AppCompatActivity() {
         val categoryAdapter = CategoryListAdapter()
 
         categoryAdapter.setOnClickListener { selected ->
-//            val categoryTemp = categories.map { item ->
-//                when {
-//                    item.name == selected.name && !item.isSelected -> item.copy(isSelected = true)
-//                    item.name == selected.name && item.isSelected -> item.copy(isSelected = false)
-//                    else -> item
-//                }
-//            }
-//
-//            val taskTemp =
-//                if (selected.name != "ALL") {
-//                    tasks.filter { it.category == selected.name }
-//                } else {
-//                    tasks
-//                }
-//            taskAdapter.submitList(taskTemp)
-//
-//            categoryAdapter.submitList(categoryTemp)
+            if(selected.name == " + ") {
+
+            } else {
+                val categoryTemp = categories.map { item ->
+                    when {
+                        item.name == selected.name && !item.isSelected -> item.copy(
+                            isSelected = true
+                        )
+
+                        item.name == selected.name && item.isSelected -> item.copy(isSelected = false)
+                        else -> item
+                    }
+                }
+
+                val taskTemp =
+                    if (selected.name != "ALL") {
+                        tasks.filter { it.category == selected.name }
+                    } else {
+                        tasks
+                    }
+
+                taskAdapter.submitList(taskTemp)
+
+                categoryAdapter.submitList(categoryTemp)
+            }
         }
 
         rvCategory.adapter = categoryAdapter
@@ -66,32 +77,6 @@ class MainActivity : AppCompatActivity() {
         getTasksFromDatabase(taskAdapter)
     }
 
-//    private fun insertDefaultCategory(){
-//        val categoriesEntity = categories.map{
-//            CategoryEntity(
-//                name = it.name,
-//                isSelected = it.isSelected
-//            )
-//        }
-//
-//        GlobalScope.launch(Dispatchers.IO) {
-//        categoryDao.insertAll(categoriesEntity)
-//        }
-//    }
-
-//    private fun insertDefaultTask(){
-//        val taskEntities = tasks.map {
-//            TaskEntity(
-//                name = it.name,
-//                category = it.category
-//            )
-//        }
-//
-//        GlobalScope.launch(Dispatchers.IO){
-//            taskDao.insertAll(taskEntities)
-//        }
-//    }
-
     private fun getCategoriesFromDatabase(adapter: CategoryListAdapter){
         GlobalScope.launch(Dispatchers.IO) {
             val categoriesFromDb: List<CategoryEntity> = categoryDao.getAll()
@@ -100,7 +85,14 @@ class MainActivity : AppCompatActivity() {
                     name = it.name,
                     isSelected = it.isSelected
                 )
-            }
+            }.toMutableList()
+            categoriesUiData.add(
+                CategoryUiData(
+                    name = " + ",
+                    isSelected = false
+                )
+            )
+            categories = categoriesUiData
             adapter.submitList(categoriesUiData)
         }
     }
@@ -114,81 +106,8 @@ class MainActivity : AppCompatActivity() {
                     name = it.name
                 )
             }
+            tasks = tasksUiData
             adapter.submitList(tasksUiData)
         }
     }
 }
-
-//val categories = listOf(
-//    CategoryUiData(
-//        name = "ALL",
-//        isSelected = false
-//    ),
-//    CategoryUiData(
-//        name = "STUDY",
-//        isSelected = false
-//    ),
-//    CategoryUiData(
-//        name = "WORK",
-//        isSelected = false
-//    ),
-//    CategoryUiData(
-//        name = "WELLNESS",
-//        isSelected = false
-//    ),
-//    CategoryUiData(
-//        name = "HOME",
-//        isSelected = false
-//    ),
-//    CategoryUiData(
-//        name = "HEALTH",
-//        isSelected = false
-//    ),
-//)
-//
-//val tasks = listOf(
-//    TaskUiData(
-//        "Ler 10 páginas do livro atual",
-//        "STUDY"
-//    ),
-//    TaskUiData(
-//        "45 min de treino na academia",
-//        "HEALTH"
-//    ),
-//    TaskUiData(
-//        "Correr 5km",
-//        "HEALTH"
-//    ),
-//    TaskUiData(
-//        "Meditar por 10 min",
-//        "WELLNESS"
-//    ),
-//    TaskUiData(
-//        "Silêncio total por 5 min",
-//        "WELLNESS"
-//    ),
-//    TaskUiData(
-//        "Descer o livo",
-//        "HOME"
-//    ),
-//    TaskUiData(
-//        "Tirar caixas da garagem",
-//        "HOME"
-//    ),
-//    TaskUiData(
-//        "Lavar o carro",
-//        "HOME"
-//    ),
-//    TaskUiData(
-//        "Gravar aulas DevSpace",
-//        "WORK"
-//    ),
-//    TaskUiData(
-//        "Criar planejamento de vídeos da semana",
-//        "WORK"
-//    ),
-//    TaskUiData(
-//        "Soltar reels da semana",
-//        "WORK"
-//    ),
-//)
