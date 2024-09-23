@@ -4,6 +4,9 @@
     <string name="create_category">Criar categoria</string>
     <string name="hint_category_name">Nome da Categoria: ex.: Trabalho</string>
     <string name="create_category_button_name">Criar</string>
+    <string name="create_task_button_name">Criar</string>
+    <string name="update_task_button_name">Atualizar</string>
     <string name="create_task">Criar Tarefa</string>
+    <string name="update_task">Atualizar Tarefa</string>
     <string name="hint_task_name">Tarefa: ex.: Corrida 10k</string>
 </resources>
