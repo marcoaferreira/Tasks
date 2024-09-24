@@ -2,6 +2,7 @@ package com.devspace.taskbeats
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.ParcelFileDescriptor
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -54,6 +55,26 @@ class MainActivity : AppCompatActivity() {
             showCreateUpdateTaskBottomSheet(task)
         }
 
+        categoryAdapter.setOnLongClickListener { categoryToBeDeleted ->
+            if(categoryToBeDeleted.name != " + " && categoryToBeDeleted.name != "ALL") {
+                val title: String = this.getString(R.string.category_delete_title)
+                val description: String = this.getString(R.string.category_delete_description)
+                val btnText: String = this.getString(R.string.delete_category_button_text)
+
+                showInfoDialog(
+                    title,
+                    description,
+                    btnText
+                ) {
+                    val categoryEntityToBeDeleted = CategoryEntity(
+                        categoryToBeDeleted.name,
+                        categoryToBeDeleted.isSelected
+                    )
+                    deleteCategory(categoryEntityToBeDeleted)
+                }
+            }
+        }
+
         categoryAdapter.setOnClickListener { selected ->
             if(selected.name == " + ") {
                 val createCategoryBottomSheet = CreateCategoryBottomSheet { categoryName ->
@@ -102,6 +123,21 @@ class MainActivity : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.IO) {
             getTasksFromDatabase()
         }
+    }
+
+    private fun showInfoDialog(
+        title: String,
+        description: String,
+        btnTitle: String,
+        onClick: () -> Unit
+    ){
+        val infoBottomSheet = InfoBottomSheet(
+            title = title,
+            description = description,
+            btnText = btnTitle,
+            onClick
+        )
+        infoBottomSheet.show(supportFragmentManager, "infoBottomSheet")
     }
 
     private fun getCategoriesFromDatabase(){
@@ -164,6 +200,16 @@ class MainActivity : AppCompatActivity() {
     private fun deleteTask(taskEntity: TaskEntity){
         GlobalScope.launch(Dispatchers.IO) {
             taskDao.delete(taskEntity)
+            getTasksFromDatabase()
+        }
+    }
+
+    private fun deleteCategory(categoryEntity: CategoryEntity){
+        GlobalScope.launch(Dispatchers.IO) {
+            val tasksToBeDeleted = taskDao.getAllByCategoryName(categoryEntity.name)
+            taskDao.deleteAll(tasksToBeDeleted)
+            categoryDao.delete(categoryEntity)
+            getCategoriesFromDatabase()
             getTasksFromDatabase()
         }
     }

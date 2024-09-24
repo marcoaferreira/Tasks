@@ -66,10 +66,10 @@ class CreateOrUpdateTaskBottomSheet(
         if(task == null) {
             btnDelete.isVisible = false
             tvTitle.setText(R.string.create_task)
-            btnCreateOrUpdate.setText(R.string.create_task_button_name)
+            btnCreateOrUpdate.setText(R.string.create_task_button_text)
         } else {
             tvTitle.setText(R.string.update_task)
-            btnCreateOrUpdate.setText(R.string.update_task_button_name)
+            btnCreateOrUpdate.setText(R.string.update_task_button_text)
             tieTaskName.setText(task.name)
             btnDelete.isVisible = true
 
