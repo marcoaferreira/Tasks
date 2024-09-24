@@ -3,11 +3,14 @@
     <string name="home_title">Tasks</string>
     <string name="create_category">Criar categoria</string>
     <string name="hint_category_name">Nome da Categoria: ex.: Trabalho</string>
-    <string name="create_category_button_name">criar</string>
-    <string name="create_task_button_name">criar</string>
-    <string name="update_task_button_name">atualizar</string>
+    <string name="create_category_button_text">criar</string>
+    <string name="create_task_button_text">criar</string>
+    <string name="update_task_button_text">atualizar</string>
     <string name="create_task">Criar Tarefa</string>
     <string name="update_task">Atualizar Tarefa</string>
     <string name="hint_task_name">Tarefa: ex.: Corrida 10k</string>
-    <string name="delete_task_button_name">deletar</string>
+    <string name="delete_task_button_text">deletar</string>
+    <string name="category_delete_title">Importante</string>
+    <string name="category_delete_description">Ao deletar uma categoria, você deleta todas as tarefas dessa categoria. Você tem certeza?</string>
+    <string name="delete_category_button_text">deletar</string>
 </resources>
