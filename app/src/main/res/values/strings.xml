@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">Tasks</string>
-    <string name="home_title">Tasks</string>
+    <string name="app_name">Tarefas</string>
+    <string name="home_title">Tarefas</string>
     <string name="create_category">Criar categoria</string>
     <string name="hint_category_name">Nome da Categoria: ex.: Trabalho</string>
     <string name="create_category_button_text">criar</string>
@@ -13,4 +13,6 @@
     <string name="category_delete_title">Importante</string>
     <string name="category_delete_description">Ao deletar uma categoria, você deleta todas as tarefas dessa categoria. Você tem certeza?</string>
     <string name="delete_category_button_text">deletar</string>
+    <string name="empty_list_title">Nenhuma categoria encontrada!</string>
+    <string name="empty_list_description">Por favor crie uma nova categoria.</string>
 </resources>
